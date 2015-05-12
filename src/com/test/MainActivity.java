@@ -19,13 +19,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private String serverIP = "192.168.1.7";
+    private String serverIP = "192.168.1.4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView ping=(TextView) findViewById(R.id.pingtime);
+        
         final Button btnGet = (Button) findViewById(R.id.btnGet);
         btnGet.setOnClickListener(new OnClickListener() {
 
@@ -41,20 +41,26 @@ public class MainActivity extends Activity {
 
         @Override
         protected MainActivity doInBackground(Void... params) {
-        	Long aStartTime,aEndTime,total;
+        	//final TextView ping=(TextView) findViewById(R.id.textView2);
+        	Long aStartTime=0L,aEndTime=0L;
+        	String aTotal="",totalTime="";
             Looper.prepare();
             try {
             	aStartTime = System.currentTimeMillis();
-                CallHandler callHandler = new CallHandler();
+            	CallHandler callHandler = new CallHandler();
                 Client client = new Client(serverIP, 7777, callHandler);
                 TestService testService = (TestService) client.getGlobal(TestService.class);
-                String msg = testService.getResponse("");
+                aEndTime=System.currentTimeMillis();
+                String res = testService.getResponse("");
                 //ping.setText(finString);
-                //Toast.makeText(MainActivity.this, testService.getResponse("abc"), Toast.LENGTH_SHORT).show();
-                aEndTime = System.currentTimeMillis();
-                total=aEndTime-aStartTime;
-                String totalString=total.toString();
-                Toast.makeText(MainActivity.this, totalString, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, testService.getResponse(""), Toast.LENGTH_SHORT).show();
+                
+                
+                aTotal +=(aEndTime-aStartTime);
+                
+                totalTime =aTotal;
+                Toast.makeText(MainActivity.this,aTotal.toString() , Toast.LENGTH_SHORT).show();
+                //ping.setText(totalTime.toString());
                 client.close();
             } catch (IOException e) {
                 e.printStackTrace();
