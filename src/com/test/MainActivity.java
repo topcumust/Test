@@ -43,22 +43,21 @@ public class MainActivity extends Activity {
         protected MainActivity doInBackground(Void... params) {
         	//final TextView ping=(TextView) findViewById(R.id.textView2);
         	Long aStartTime=0L,aEndTime=0L;
-        	String aTotal="",totalTime="";
+        	String aTotal="";
             Looper.prepare();
             try {
             	aStartTime = System.currentTimeMillis();
             	CallHandler callHandler = new CallHandler();
                 Client client = new Client(serverIP, 7777, callHandler);
                 TestService testService = (TestService) client.getGlobal(TestService.class);
-                aEndTime=System.currentTimeMillis();
+                
                 String res = testService.getResponse("");
                 //ping.setText(finString);
                 //Toast.makeText(MainActivity.this, testService.getResponse(""), Toast.LENGTH_SHORT).show();
                 
-                
+                aEndTime=System.currentTimeMillis();
                 aTotal +=(aEndTime-aStartTime);
-                
-                totalTime =aTotal;
+               
                 Toast.makeText(MainActivity.this,aTotal.toString() , Toast.LENGTH_SHORT).show();
                 //ping.setText(totalTime.toString());
                 client.close();
